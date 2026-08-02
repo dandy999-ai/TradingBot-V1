@@ -1,0 +1,9 @@
+pandas
+numpy
+yfinance
+pandas-ta
+backtesting
+plotly
+requests
+python-telegram-bot
+ib-insync
