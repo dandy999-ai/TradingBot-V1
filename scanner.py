@@ -13,12 +13,15 @@ def download_data(symbol, period="1y", interval="1d"):
     Scarica i dati di un titolo.
     """
 
-    df = yf.download(
-        symbol,
-        period=period,
-        interval=interval,
-        progress=False
-    )
+      if isinstance(df.columns, pd.MultiIndex):
+        df.columns = df.columns.get_level_values(0)
+
+    return df
+
+
+def get_watchlist():
+    return ETF_LIST + STOCK_LIST
+Fai Commit
 
     return df
 
