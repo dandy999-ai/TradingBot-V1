@@ -1,23 +1,33 @@
-
 """
-TradingBot-V1
-Strategia di trading
+TradingBot-V2
+Strategia con punteggio
 """
 
-def check_buy_signal(df):
+def analyze(df):
 
     if len(df) < 200:
-        return False
+        return {
+            "buy": False,
+            "score": 0
+        }
 
     last = df.iloc[-1]
 
-    ema50 = float(last["EMA50"])
-    ema200 = float(last["EMA200"])
-    rsi = float(last["RSI"])
-    macd = float(last["MACD"])
-    macd_signal = float(last["MACD_SIGNAL"])
+    score = 0
 
-    return (
-        ema50 > ema200
-        and 50 <= rsi <= 65
-        and macd > macd_signal
+    # Trend
+    if last["EMA50"] > last["EMA200"]:
+        score += 40
+
+    # Momentum
+    if last["MACD"] > last["MACD_SIGNAL"]:
+        score += 30
+
+    # RSI
+    if 50 <= last["RSI"] <= 65:
+        score += 30
+
+    return {
+        "buy": score >= 70,
+        "score": score
+    }
