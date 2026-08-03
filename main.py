@@ -1,41 +1,36 @@
 """
-TradingBot-V1
-Programma principale
+TradingBot V1
+Main
 """
 
 from scanner import get_watchlist, download_data
 from indicators import add_indicators
 from strategy import check_buy_signal
 
+print("===================================")
+print("      TRADING BOT V1")
+print("===================================\n")
 
-def main():
+watchlist = get_watchlist()
 
-    watchlist = get_watchlist()
+for symbol in watchlist:
 
-    print("=== TradingBot V1 ===")
+    print(f"Analizzo {symbol}...")
 
-    for symbol in watchlist:
+    try:
 
-        print(f"Analizzo {symbol}...")
+        df = download_data(symbol)
 
-        try:
+        if df.empty:
+            print("Nessun dato trovato\n")
+            continue
 
-            df = download_data(symbol)
+        df = add_indicators(df)
 
-            df = add_indicators(df)
+        if check_buy_signal(df):
+            print(">>> SEGNALE BUY\n")
+        else:
+            print("Nessun segnale\n")
 
-            if check_buy_signal(df):
-
-                print(f"✅ Segnale BUY su {symbol}")
-
-            else:
-
-                print(f"❌ Nessun segnale su {symbol}")
-
-        except Exception as e:
-
-            print(f"Errore su {symbol}: {e}")
-
-
-if __name__ == "__main__":
-    main()
+    except Exception as e:
+        print("Errore:", e)
