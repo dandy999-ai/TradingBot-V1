@@ -1,7 +1,11 @@
+
 """
-TradingBot-V2
+TradingBot V2
 Strategia con punteggio
 """
+
+from config import BUY_SCORE
+
 
 def analyze(df):
 
@@ -18,3 +22,16 @@ def analyze(df):
     # Trend
     if last["EMA50"] > last["EMA200"]:
         score += 40
+
+    # Momentum
+    if last["MACD"] > last["MACD_SIGNAL"]:
+        score += 30
+
+    # RSI
+    if 50 <= last["RSI"] <= 65:
+        score += 30
+
+    return {
+        "buy": score >= BUY_SCORE,
+        "score": score
+    }
