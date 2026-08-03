@@ -23,10 +23,10 @@ ATR_TARGET = 3
 
 # ETF monitorati
 ETF_LIST = [
-    "VWCE",
-    "VUAA",
-    "EUNL",
-    "SXRV"
+    "SPY",
+    "QQQ",
+    "DIA",
+    "IWM"
 ]
 
 # Azioni monitorate
