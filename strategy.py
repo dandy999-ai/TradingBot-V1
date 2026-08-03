@@ -21,4 +21,3 @@ def check_buy_signal(df):
         ema50 > ema200
         and 50 <= rsi <= 65
         and macd > macd_signal
-    )
