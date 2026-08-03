@@ -1,36 +1,48 @@
 """
-TradingBot V1
-Main
+TradingBot V2
+Programma principale
 """
 
 from scanner import get_watchlist, download_data
 from indicators import add_indicators
-from strategy import check_buy_signal
+from strategy import analyze
 
-print("===================================")
-print("      TRADING BOT V1")
-print("===================================\n")
 
-watchlist = get_watchlist()
+def main():
 
-for symbol in watchlist:
+    watchlist = get_watchlist()
 
-    print(f"Analizzo {symbol}...")
+    print("===================================")
+    print("      TRADING BOT V2")
+    print("===================================\n")
 
-    try:
+    for symbol in watchlist:
 
-        df = download_data(symbol)
+        print(f"Analizzo {symbol}...")
 
-        if df.empty:
-            print("Nessun dato trovato\n")
-            continue
+        try:
 
-        df = add_indicators(df)
+            df = download_data(symbol)
 
-        if check_buy_signal(df):
-            print(">>> SEGNALE BUY\n")
-        else:
-            print("Nessun segnale\n")
+            if df.empty:
+                print("Nessun dato trovato\n")
+                continue
 
-    except Exception as e:
-        print("Errore:", e)
+            df = add_indicators(df)
+
+            result = analyze(df)
+
+            print(f"Punteggio: {result['score']}/100")
+
+            if result["buy"]:
+                print(">>> SEGNALE BUY\n")
+            else:
+                print("Nessun segnale\n")
+
+        except Exception as e:
+
+            print(f"Errore: {e}")
+
+
+if __name__ == "__main__":
+    main()
