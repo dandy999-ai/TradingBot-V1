@@ -1,37 +1,24 @@
+
 """
 TradingBot-V1
 Strategia di trading
 """
 
 def check_buy_signal(df):
-    """
-    Controlla se è presente un segnale di acquisto.
-    Restituisce True oppure False.
-    """
+
+    if len(df) < 200:
+        return False
 
     last = df.iloc[-1]
 
-    if (
-        last["EMA50"] > last["EMA200"] and
-        50 <= last["RSI"] <= 65 and
-        last["MACD"] > last["MACD_SIGNAL"]
-    ):
-        return True
+    ema50 = float(last["EMA50"])
+    ema200 = float(last["EMA200"])
+    rsi = float(last["RSI"])
+    macd = float(last["MACD"])
+    macd_signal = float(last["MACD_SIGNAL"])
 
-    return False
-
-
-def check_sell_signal(df):
-    """
-    Controlla se è presente un segnale di vendita.
-    """
-
-    last = df.iloc[-1]
-
-    if (
-        last["EMA50"] < last["EMA200"] or
-        last["MACD"] < last["MACD_SIGNAL"]
-    ):
-        return True
-
-    return False
+    return (
+        ema50 > ema200
+        and 50 <= rsi <= 65
+        and macd > macd_signal
+    )
