@@ -18,16 +18,3 @@ def analyze(df):
     # Trend
     if last["EMA50"] > last["EMA200"]:
         score += 40
-
-    # Momentum
-    if last["MACD"] > last["MACD_SIGNAL"]:
-        score += 30
-
-    # RSI
-    if 50 <= last["RSI"] <= 65:
-        score += 30
-
-    return {
-        "buy": score >= 70,
-        "score": score
-    }
