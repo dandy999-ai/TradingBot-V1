@@ -40,6 +40,13 @@ STOCK_LIST = [
     "KO",
     "JPM"
 ]
+# Punteggio minimo per comprare
+BUY_SCORE = 80
 
+# Volume
+VOLUME_FILTER = True
+
+# Numero massimo di operazioni
+MAX_OPEN_TRADES = 3
 # Modalità del bot
 LIVE_TRADING = False
