@@ -1,17 +1,25 @@
 """
-TradingBot V6
-Sistema di punteggio
+TradingBot PRO V2.1
+Sistema di Punteggio
 """
 
+from config import (
+    TECHNICAL_WEIGHT,
+    FUNDAMENTAL_WEIGHT
+)
 
-def total_score(technical_score, fundamental_score):
 
-    # 60% tecnica
-    technical = technical_score * 0.60
+def total_score(
+    technical_score,
+    fundamental_score
+):
+    """
+    Calcola il punteggio finale.
+    """
 
-    # 40% fondamentali
-    fundamental = fundamental_score * 0.40
+    score = (
+        technical_score * TECHNICAL_WEIGHT +
+        fundamental_score * FUNDAMENTAL_WEIGHT
+    )
 
-    score = technical + fundamental
-
-    return round(score, 2)
+    return round(min(score, 100), 2)
