@@ -1,7 +1,12 @@
+"""
+TradingBot V6
+Scanner di mercato
+"""
+
 import yfinance as yf
 import pandas as pd
 
-# La watchlist verrà letta da watchlist.txt
+from universe import get_universe
 
 
 def download_data(symbol, period="1y", interval="1d"):
@@ -23,15 +28,4 @@ def download_data(symbol, period="1y", interval="1d"):
 
 def get_watchlist():
 
-    with open("watchlist.txt", "r") as file:
-
-        watchlist = []
-
-        for line in file:
-
-            symbol = line.strip()
-
-            if symbol:
-                watchlist.append(symbol)
-
-        return watchlist
+    return get_universe()
