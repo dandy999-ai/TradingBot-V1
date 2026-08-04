@@ -63,4 +63,24 @@ def get_fundamentals(symbol):
 
         # -------------------------
         # Valutazione
-        #
+        if forward_pe is not None:
+
+            if 10 <= forward_pe <= 30:
+                score += 20
+
+            elif forward_pe < 40:
+                score += 10
+
+        # Beta (rischio)
+        if beta is not None:
+
+            if beta < 1.5:
+                score += 20
+
+            elif beta < 2:
+                score += 10
+
+    except Exception:
+        return 0
+
+    return min(score, 100)
