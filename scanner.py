@@ -1,5 +1,5 @@
 """
-TradingBot PRO V2.0
+TradingBot PRO V3.1
 Scanner di Mercato
 """
 
@@ -7,6 +7,10 @@ import yfinance as yf
 import pandas as pd
 
 from config import WATCHLIST_FILE
+from universe import (
+    load_watchlist,
+    all_symbols
+)
 
 
 def download_data(symbol, period="1y", interval="1d"):
@@ -28,21 +32,7 @@ def download_data(symbol, period="1y", interval="1d"):
 
 def get_watchlist():
 
-    watchlist = []
+    if WATCHLIST_FILE == "ALL":
+        return all_symbols()
 
-    try:
-
-        with open(WATCHLIST_FILE, "r") as file:
-
-            for line in file:
-
-                symbol = line.strip().upper()
-
-                if symbol:
-                    watchlist.append(symbol)
-
-    except FileNotFoundError:
-
-        print(f"Watchlist non trovata: {WATCHLIST_FILE}")
-
-    return watchlist
+    return load_watchlist(WATCHLIST_FILE)
