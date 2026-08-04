@@ -1,13 +1,4 @@
-"""
-TradingBot PRO V5
-Backtest Professionale
-"""
 
-from scanner import download_data
-from indicators import add_indicators
-from strategy import analyze
-from momentum import momentum_score
-from fundamentals import get_fundamentals
 from scoring import total_score
 
 from config import (
