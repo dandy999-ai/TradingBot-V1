@@ -1,36 +1,66 @@
 """
-TradingBot V5
-Analisi fondamentale con punteggio
+TradingBot V6
+Analisi Fondamentale
 """
 
 import yfinance as yf
 
 
 def get_fundamentals(symbol):
+    """
+    Restituisce un punteggio fondamentale da 0 a 100
+    """
+
+    score = 0
 
     try:
 
-        info = yf.Ticker(symbol).info
+        stock = yf.Ticker(symbol)
+        info = stock.info
 
-        score = 0
+        market_cap = info.get("marketCap")
+        revenue_growth = info.get("revenueGrowth")
+        earnings_growth = info.get("earningsGrowth")
+        forward_pe = info.get("forwardPE")
+        beta = info.get("beta")
 
-        market_cap = info.get("marketCap", 0)
+        # -------------------------
+        # Capitalizzazione
+        # Preferiamo Small/Mid Cap
+        # -------------------------
 
-        if 300_000_000 <= market_cap <= 5_000_000_000:
-            score += 20
+        if market_cap:
 
-        revenue = info.get("revenueGrowth")
+            if 300_000_000 <= market_cap <= 5_000_000_000:
+                score += 20
 
-        if revenue is not None and revenue > 0.20:
-            score += 15
+            elif 5_000_000_000 < market_cap <= 50_000_000_000:
+                score += 10
 
-        earnings = info.get("earningsGrowth")
+        # -------------------------
+        # Crescita ricavi
+        # -------------------------
 
-        if earnings is not None and earnings > 0.20:
-            score += 15
+        if revenue_growth is not None:
 
-        return score
+            if revenue_growth > 0.30:
+                score += 20
 
-    except Exception:
+            elif revenue_growth > 0.15:
+                score += 10
 
-        return 0
+        # -------------------------
+        # Crescita utili
+        # -------------------------
+
+        if earnings_growth is not None:
+
+            if earnings_growth > 0.30:
+                score += 20
+
+            elif earnings_growth > 0.15:
+                score += 10
+
+        # -------------------------
+        # Valutazione
+        #
