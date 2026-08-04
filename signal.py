@@ -1,27 +1,32 @@
 """
-TradingBot V7
-Generazione del segnale finale
+TradingBot PRO V4.1
+Generazione Segnale
 """
 
 
-def generate_signal(symbol, technical, fundamental, final_score):
+def generate_signal(
+    symbol,
+    technical,
+    fundamental,
+    score
+):
 
-    if final_score >= 90:
-        signal = "🔥 STRONG BUY"
+    if score >= 90:
+        signal = "⭐ STRONG BUY"
 
-    elif final_score >= 80:
+    elif score >= 80:
         signal = "🟢 BUY"
 
-    elif final_score >= 65:
-        signal = "🟡 WATCH"
+    elif score >= 70:
+        signal = "👀 WATCH"
 
     else:
-        signal = "🔴 NO TRADE"
+        signal = "⚪ HOLD"
 
     return {
         "symbol": symbol,
         "technical": technical,
         "fundamental": fundamental,
-        "score": final_score,
+        "score": score,
         "signal": signal
     }
