@@ -65,7 +65,7 @@ USE_GROWTH_FILTER = True
 # WATCHLIST
 # ==========================================
 
-WATCHLIST_FILE = "watchlist.txt"
+WATCHLIST_FILE = "watchlists/growth.txt"
 
 # ==========================================
 # REPORT
