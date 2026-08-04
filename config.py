@@ -45,8 +45,9 @@ ATR_TARGET = 3.0
 # PESI DEL PUNTEGGIO
 # ======================================================
 
-TECHNICAL_WEIGHT = 0.60
-FUNDAMENTAL_WEIGHT = 0.40
+TECHNICAL_WEIGHT = 0.50
+FUNDAMENTAL_WEIGHT = 0.30
+MOMENTUM_WEIGHT = 0.20
 
 # ======================================================
 # WATCHLIST
