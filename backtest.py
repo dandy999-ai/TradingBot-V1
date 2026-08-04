@@ -1,55 +1,94 @@
 """
-TradingBot V3
-Backtest con simulazione operazioni
+TradingBot PRO V5
+Backtest Professionale
 """
 
 from scanner import download_data
 from indicators import add_indicators
 from strategy import analyze
-from performance import calculate_trade
+from momentum import momentum_score
+from fundamentals import get_fundamentals
+from scoring import total_score
+
+from config import (
+    BUY_SCORE,
+    INITIAL_CAPITAL,
+    RISK_PER_TRADE
+)
 
 
 def run_backtest(symbol):
 
-    df = download_data(symbol, period="5y")
-    df = add_indicators(df)
+    capital = INITIAL_CAPITAL
 
     trades = 0
     wins = 0
     losses = 0
-    total_profit = 0
 
-    for i in range(200, len(df) - 10):
+    df = download_data(symbol, period="5y")
 
-        result = analyze(df.iloc[:i+1])
+    if df.empty:
+        print("Nessun dato.")
+        return
 
-        if result["buy"]:
+    df = add_indicators(df)
 
-            entry = float(df["Close"].iloc[i])
-            exit_price = float(df["Close"].iloc[i + 10])
+    for i in range(220, len(df) - 10):
 
-            profit = calculate_trade(entry, exit_price)
+        history = df.iloc[:i + 1]
 
-            trades += 1
-            total_profit += profit
+        technical = analyze(history)["score"]
 
-            if profit > 0:
-                wins += 1
-            else:
-                losses += 1
+        fundamental = get_fundamentals(symbol)
 
-    print("\n==============================")
+        momentum = momentum_score(history)
+
+        score = total_score(
+            technical,
+            fundamental,
+            momentum
+        )
+
+        if score < BUY_SCORE:
+            continue
+
+        entry = float(df["Close"].iloc[i])
+
+        exit_price = float(df["Close"].iloc[i + 10])
+
+        variation = (exit_price - entry) / entry
+
+        risk_capital = capital * RISK_PER_TRADE
+
+        profit = risk_capital * variation
+
+        capital += profit
+
+        trades += 1
+
+        if profit > 0:
+            wins += 1
+        else:
+            losses += 1
+
+    print()
+    print("=" * 60)
     print("BACKTEST")
-    print("==============================")
-    print("Ticker:", symbol)
-    print("Operazioni:", trades)
-    print("Vincenti:", wins)
-    print("Perdenti:", losses)
+    print("=" * 60)
+    print(f"Ticker             : {symbol}")
+    print(f"Operazioni         : {trades}")
+    print(f"Vincenti           : {wins}")
+    print(f"Perdenti           : {losses}")
 
     if trades > 0:
-        print("Win Rate:", round((wins / trades) * 100, 2), "%")
-        print("Profitto totale:", round(total_profit, 2), "%")
-        print("Profitto medio:", round(total_profit / trades, 2), "%")
+        print(f"Win Rate           : {wins / trades * 100:.2f}%")
+
+    print(f"Capitale iniziale  : {INITIAL_CAPITAL:.2f} €")
+    print(f"Capitale finale    : {capital:.2f} €")
+    print(f"Rendimento         : {(capital / INITIAL_CAPITAL - 1) * 100:.2f}%")
+
+    print("=" * 60)
 
 
-run_backtest("SPY")
+if __name__ == "__main__":
+    run_backtest("SPY")
