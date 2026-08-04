@@ -26,7 +26,7 @@ MAX_DAILY_LOSS = 0.03      # 3%
 # STRATEGIA
 # ======================================================
 
-BUY_SCORE = 85
+BUY_SCORE = 70
 
 EMA_FAST = 50
 EMA_SLOW = 200
