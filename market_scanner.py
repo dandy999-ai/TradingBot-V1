@@ -1,5 +1,5 @@
 """
-TradingBot PRO V3
+TradingBot PRO V3.2
 Market Scanner
 """
 
@@ -7,6 +7,7 @@ from scanner import get_watchlist, download_data
 from indicators import add_indicators
 from strategy import analyze
 from fundamentals import get_fundamentals
+from momentum import momentum_score
 from scoring import total_score
 from signal import generate_signal
 from entry import calculate_entry
@@ -31,16 +32,38 @@ def scan_market():
 
             df = add_indicators(df)
 
-            technical = analyze(df)
+            # ==========================
+            # Analisi Tecnica
+            # ==========================
 
+            technical = analyze(df)
             technical_score = technical["score"]
+
+            # ==========================
+            # Analisi Fondamentale
+            # ==========================
 
             fundamental_score = get_fundamentals(symbol)
 
+            # ==========================
+            # Momentum
+            # ==========================
+
+            momentum = momentum_score(df)
+
+            # ==========================
+            # Score Finale
+            # ==========================
+
             final_score = total_score(
                 technical_score,
-                fundamental_score
+                fundamental_score,
+                momentum
             )
+
+            # ==========================
+            # Segnale
+            # ==========================
 
             signal = generate_signal(
                 symbol,
@@ -49,7 +72,17 @@ def scan_market():
                 final_score
             )
 
+            # ==========================
+            # Livelli operativi
+            # ==========================
+
             trade = calculate_entry(df)
+
+            signal["technical"] = technical_score
+            signal["fundamental"] = fundamental_score
+            signal["momentum"] = momentum
+
+            signal["score"] = final_score
 
             signal["entry"] = trade["entry"]
             signal["stop"] = trade["stop"]
