@@ -41,7 +41,7 @@ STOCK_LIST = [
     "JPM"
 ]
 # Punteggio minimo per comprare
-BUY_SCORE = 80
+BUY_SCORE = 85
 
 # Volume
 VOLUME_FILTER = True
