@@ -1,55 +1,67 @@
 """
-TradingBot V6
-Universe dei titoli
+TradingBot PRO V3.1
+Gestione Universe
 """
 
+from config import (
+    WATCHLIST_GROWTH,
+    WATCHLIST_ETF,
+    WATCHLIST_QUALITY
+)
 
-def get_universe():
 
-    return [
+def load_watchlist(filename):
 
-        # Big Tech
-        "AAPL",
-        "MSFT",
-        "NVDA",
-        "AMZN",
-        "META",
-        "GOOGL",
-        "TSLA",
+    symbols = []
 
-        # AI
-        "PLTR",
-        "AMD",
-        "SMCI",
-        "AVGO",
-        "TSM",
+    try:
 
-        # Growth
-        "SOFI",
-        "RKLB",
-        "IONQ",
-        "HIMS",
-        "CRWV",
-        "ASTS",
-        "LUNR",
-        "OKLO",
+        with open(filename, "r") as file:
 
-        # Cybersecurity
-        "CRWD",
-        "PANW",
-        "ZS",
+            for line in file:
 
-        # Cloud
-        "SNOW",
-        "DDOG",
-        "NET",
+                symbol = line.strip().upper()
 
-        # Fintech
-        "HOOD",
-        "COIN",
+                if symbol:
 
-        # ETF
-        "SPY",
-        "QQQ",
-        "IWM"
-    ]
+                    symbols.append(symbol)
+
+    except FileNotFoundError:
+
+        print(f"File non trovato: {filename}")
+
+    return sorted(list(set(symbols)))
+
+
+def growth():
+
+    return load_watchlist(
+        WATCHLIST_GROWTH
+    )
+
+
+def etf():
+
+    return load_watchlist(
+        WATCHLIST_ETF
+    )
+
+
+def quality():
+
+    return load_watchlist(
+        WATCHLIST_QUALITY
+    )
+
+
+def all_symbols():
+
+    universe = []
+
+    universe.extend(growth())
+
+    universe.extend(etf())
+
+    universe.extend(quality())
+
+    return sorted(list(set(universe)))
