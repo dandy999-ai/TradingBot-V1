@@ -6,6 +6,7 @@ Programma principale
 from scanner import get_watchlist, download_data
 from indicators import add_indicators
 from strategy import analyze
+from ranking import rank_results
 
 
 def main():
@@ -44,7 +45,7 @@ def main():
             print(f"Errore su {symbol}: {e}")
 
     # Ordina per punteggio
-    results.sort(key=lambda x: x["score"], reverse=True)
+    results = rank_results(results, top=10)
 
     print()
     print("=" * 40)
