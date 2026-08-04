@@ -1,7 +1,7 @@
 import yfinance as yf
 import pandas as pd
 
-from config import ETF_LIST, STOCK_LIST
+# La watchlist verrà letta da watchlist.txt
 
 
 def download_data(symbol, period="1y", interval="1d"):
