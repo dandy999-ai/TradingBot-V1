@@ -1,52 +1,86 @@
-# ==========================
-# TradingBot-V1
-# Configurazione principale
-# ==========================
+"""
+TradingBot PRO
+Configurazione principale
+"""
 
-# Capitale iniziale (simulazione)
-CAPITALE_INIZIALE = 500
+# ==========================================
+# CAPITALE
+# ==========================================
 
-# Gestione del rischio
-RISCHIO_PER_OPERAZIONE = 0.01   # 1%
-MAX_POSIZIONI = 3
-STOP_GIORNALIERO = 0.03         # 3%
+INITIAL_CAPITAL = 500
 
-# Strategia
-EMA_VELOCE = 50
-EMA_LENTA = 200
+RISK_PER_TRADE = 0.01          # 1%
 
-RSI_MIN = 50
-RSI_MAX = 65
+MAX_OPEN_TRADES = 3
 
-ATR_STOP = 2
-ATR_TARGET = 3
+MAX_DAILY_LOSS = 0.03          # 3%
 
-# ETF monitorati
-ETF_LIST = [
-    "SPY",
-    "QQQ",
-    "DIA",
-    "IWM"
-]
+# ==========================================
+# STRATEGIA
+# ==========================================
 
-# Azioni monitorate
-STOCK_LIST = [
-    "AAPL",
-    "MSFT",
-    "NVDA",
-    "AMZN",
-    "V",
-    "JNJ",
-    "KO",
-    "JPM"
-]
-# Punteggio minimo per comprare
 BUY_SCORE = 85
 
-# Volume
-VOLUME_FILTER = True
+EMA_FAST = 50
+EMA_SLOW = 200
 
-# Numero massimo di operazioni
-MAX_OPEN_TRADES = 3
-# Modalità del bot
+RSI_BUY_MIN = 50
+RSI_BUY_MAX = 60
+
+BREAKOUT_LOOKBACK = 20
+
+VOLUME_LOOKBACK = 20
+
+# ==========================================
+# STOP LOSS / TAKE PROFIT
+# ==========================================
+
+ATR_STOP = 2.0
+
+ATR_TARGET = 3.0
+
+# ==========================================
+# MODALITÀ BOT
+# ==========================================
+
 LIVE_TRADING = False
+
+PAPER_TRADING = True
+
+# ==========================================
+# SCANNER
+# ==========================================
+
+TOP_RESULTS = 10
+
+USE_FUNDAMENTALS = True
+
+USE_VOLUME_FILTER = True
+
+USE_BREAKOUT_FILTER = True
+
+USE_GROWTH_FILTER = True
+
+# ==========================================
+# WATCHLIST
+# ==========================================
+
+WATCHLIST_FILE = "watchlist.txt"
+
+# ==========================================
+# REPORT
+# ==========================================
+
+SAVE_TRADES = True
+
+SAVE_REPORT = True
+
+REPORT_FOLDER = "reports"
+
+# ==========================================
+# VERSIONE
+# ==========================================
+
+BOT_NAME = "TradingBot PRO"
+
+VERSION = "1.0"
