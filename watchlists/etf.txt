@@ -1,0 +1,8 @@
+SPY
+QQQ
+DIA
+IWM
+VTI
+VOO
+XLK
+SMH
