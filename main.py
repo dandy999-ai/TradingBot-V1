@@ -1,5 +1,5 @@
 """
-TradingBot V6
+TradingBot PRO V1.0
 Programma principale
 """
 
@@ -9,16 +9,25 @@ from strategy import analyze
 from fundamentals import get_fundamentals
 from scoring import total_score
 from ranking import rank_results
+from signal import generate_signal
+
+from config import (
+    BOT_NAME,
+    VERSION,
+    BUY_SCORE,
+    TOP_RESULTS
+)
 
 
 def main():
 
     watchlist = get_watchlist()
+
     results = []
 
-    print("=" * 50)
-    print("         TRADING BOT V6")
-    print("=" * 50)
+    print("=" * 60)
+    print(f"{BOT_NAME} - Versione {VERSION}")
+    print("=" * 60)
     print()
 
     for symbol in watchlist:
@@ -44,37 +53,46 @@ def main():
                 fundamental_score
             )
 
-            results.append({
-                "symbol": symbol,
-                "technical": technical_score,
-                "fundamental": fundamental_score,
-                "score": final_score,
-                "buy": final_score >= 85
-            })
+            signal = generate_signal(
+                symbol,
+                technical_score,
+                fundamental_score,
+                final_score
+            )
+
+            signal["buy"] = final_score >= BUY_SCORE
+
+            results.append(signal)
 
         except Exception as e:
 
             print(f"Errore su {symbol}: {e}")
 
-    results = rank_results(results, top=10)
+    results = rank_results(
+        results,
+        top=TOP_RESULTS
+    )
 
     print()
-    print("=" * 50)
-    print("TOP 10 OPPORTUNITÀ")
-    print("=" * 50)
+    print("=" * 60)
+    print("TOP OPPORTUNITÀ")
+    print("=" * 60)
 
-    for i, r in enumerate(results, start=1):
-
-        signal = "BUY ✅" if r["buy"] else "-"
+    for i, stock in enumerate(results, start=1):
 
         print(
             f"{i:2}. "
-            f"{r['symbol']:<6} | "
-            f"Score: {r['score']:>5} | "
-            f"Tecnica: {r['technical']:>3} | "
-            f"Fond.: {r['fundamental']:>3} | "
-            f"{signal}"
+            f"{stock['symbol']:<6} | "
+            f"Score {stock['score']:>5} | "
+            f"Tec {stock['technical']:>3} | "
+            f"Fond {stock['fundamental']:>3} | "
+            f"{stock['signal']}"
         )
+
+    print()
+    print("=" * 60)
+    print("Analisi completata.")
+    print("=" * 60)
 
 
 if __name__ == "__main__":
