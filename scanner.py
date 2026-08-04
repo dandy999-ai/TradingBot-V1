@@ -23,4 +23,15 @@ def download_data(symbol, period="1y", interval="1d"):
 
 def get_watchlist():
 
-    return ETF_LIST + STOCK_LIST
+    with open("watchlist.txt", "r") as file:
+
+        watchlist = []
+
+        for line in file:
+
+            symbol = line.strip()
+
+            if symbol:
+                watchlist.append(symbol)
+
+        return watchlist
