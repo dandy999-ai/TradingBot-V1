@@ -13,9 +13,10 @@ def main():
     watchlist = get_watchlist()
     results = []
 
-    print("===================================")
-    print("      TRADING BOT V3")
-    print("===================================\n")
+    print("=" * 40)
+    print("        TRADING BOT V3")
+    print("=" * 40)
+    print()
 
     for symbol in watchlist:
 
@@ -40,20 +41,23 @@ def main():
             })
 
         except Exception as e:
-            print(f"Errore: {e}")
+            print(f"Errore su {symbol}: {e}")
 
+    # Ordina per punteggio
     results.sort(key=lambda x: x["score"], reverse=True)
 
-    print("\n===================================")
+    print()
+    print("=" * 40)
     print("TOP OPPORTUNITÀ")
-    print("===================================\n")
+    print("=" * 40)
 
-    for r in results:
+    for i, r in enumerate(results, start=1):
 
-        signal = "BUY" if r["buy"] else "-"
+        signal = "BUY ✅" if r["buy"] else "-"
 
         print(
-            f"{r['symbol']:6} "
+            f"{i:2}. "
+            f"{r['symbol']:<6} "
             f"Score: {r['score']:3}/100   "
             f"{signal}"
         )
