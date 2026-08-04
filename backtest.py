@@ -49,8 +49,9 @@ def run_backtest(symbol):
             momentum
         )
 
-        if score < BUY_SCORE:
-            continue
+        # Soglia temporanea per testare la strategia
+if score < 70:
+    continue
 
         entry = float(df["Close"].iloc[i])
 
