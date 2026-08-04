@@ -49,7 +49,6 @@ def main():
             df = add_indicators(df)
 
             technical = analyze(df)
-
             technical_score = technical["score"]
 
             fundamental_score = get_fundamentals(symbol)
@@ -91,4 +90,26 @@ def main():
     print("TOP OPPORTUNITÀ")
     print("=" * 70)
 
-    for i, stock in
+    for i, stock in enumerate(results, start=1):
+
+        print()
+        print(f"{i}. {stock['symbol']}")
+        print(f"Score         : {stock['score']}")
+        print(f"Tecnico       : {stock['technical']}")
+        print(f"Fondamentale  : {stock['fundamental']}")
+        print(f"Segnale       : {stock['signal']}")
+        print(f"Entrata       : {stock['entry']}")
+        print(f"Stop Loss     : {stock['stop']}")
+        print(f"Target        : {stock['target']}")
+        print(f"Risk/Reward   : {stock['rr']}")
+
+    save_results(results)
+
+    print()
+    print("=" * 70)
+    print("Analisi completata.")
+    print("=" * 70)
+
+
+if __name__ == "__main__":
+    main()
