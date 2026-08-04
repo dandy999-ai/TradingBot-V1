@@ -1,23 +1,30 @@
 """
-TradingBot PRO
+TradingBot PRO V2.0
 Configurazione principale
 """
 
-# ==========================================
+# ======================================================
+# INFORMAZIONI BOT
+# ======================================================
+
+BOT_NAME = "TradingBot PRO"
+VERSION = "2.0"
+
+# ======================================================
 # CAPITALE
-# ==========================================
+# ======================================================
 
-INITIAL_CAPITAL = 500
+INITIAL_CAPITAL = 500.0
 
-RISK_PER_TRADE = 0.01          # 1%
+RISK_PER_TRADE = 0.01        # 1%
 
 MAX_OPEN_TRADES = 3
 
-MAX_DAILY_LOSS = 0.03          # 3%
+MAX_DAILY_LOSS = 0.03        # 3%
 
-# ==========================================
+# ======================================================
 # STRATEGIA
-# ==========================================
+# ======================================================
 
 BUY_SCORE = 85
 
@@ -31,58 +38,44 @@ BREAKOUT_LOOKBACK = 20
 
 VOLUME_LOOKBACK = 20
 
-# ==========================================
-# STOP LOSS / TAKE PROFIT
-# ==========================================
-
 ATR_STOP = 2.0
-
 ATR_TARGET = 3.0
 
-# ==========================================
-# MODALITÀ BOT
-# ==========================================
+# ======================================================
+# WATCHLIST
+# ======================================================
 
-LIVE_TRADING = False
+WATCHLIST_GROWTH = "watchlists/growth.txt"
+WATCHLIST_ETF = "watchlists/etf.txt"
+WATCHLIST_QUALITY = "watchlists/quality.txt"
 
-PAPER_TRADING = True
+# Watchlist attualmente utilizzata
+WATCHLIST_FILE = WATCHLIST_GROWTH
 
-# ==========================================
+# ======================================================
 # SCANNER
-# ==========================================
+# ======================================================
 
 TOP_RESULTS = 10
 
 USE_FUNDAMENTALS = True
-
 USE_VOLUME_FILTER = True
-
 USE_BREAKOUT_FILTER = True
-
 USE_GROWTH_FILTER = True
 
-# ==========================================
-# WATCHLIST
-# ==========================================
-
-WATCHLIST_FILE = "watchlists/growth.txt"
-WATCHLIST_GROWTH = "watchlists/growth.txt"
-WATCHLIST_ETF = "watchlists/etf.txt"
-WATCHLIST_QUALITY = "watchlists/quality.txt"
-# ==========================================
+# ======================================================
 # REPORT
-# ==========================================
-
-SAVE_TRADES = True
+# ======================================================
 
 SAVE_REPORT = True
+SAVE_TRADES = True
 
 REPORT_FOLDER = "reports"
 
-# ==========================================
-# VERSIONE
-# ==========================================
+# ======================================================
+# MODALITÀ BOT
+# ======================================================
 
-BOT_NAME = "TradingBot PRO"
+PAPER_TRADING = True
 
-VERSION = "1.0"
+LIVE_TRADING = False
