@@ -1,6 +1,6 @@
 """
-TradingBot V7
-Strategia Avanzata
+TradingBot PRO V2.1
+Strategia
 """
 
 from config import BUY_SCORE
@@ -28,12 +28,18 @@ def analyze(df):
     if last["Close"] > last["EMA50"]:
         score += 10
 
+    if last["EMA200_SLOPE"]:
+        score += 10
+
     # ==========================================
     # MOMENTUM
     # ==========================================
 
     if last["MACD"] > last["MACD_SIGNAL"]:
-        score += 20
+        score += 15
+
+    if last["MACD_HIST"] > 0:
+        score += 5
 
     # ==========================================
     # RSI
@@ -49,28 +55,31 @@ def analyze(df):
     # BREAKOUT
     # ==========================================
 
-    highest20 = df["High"].tail(20).max()
-
-    if last["Close"] >= highest20 * 0.98:
+    if last["Close"] > last["HIGH20"]:
         score += 15
-
-    # ==========================================
-    # TREND LUNGO PERIODO
-    # ==========================================
-
-    ema200_old = df["EMA200"].iloc[-20]
-
-    if last["EMA200"] > ema200_old:
-        score += 10
 
     # ==========================================
     # VOLUME
     # ==========================================
 
-    avg_volume = df["Volume"].tail(20).mean()
-
-    if last["Volume"] > avg_volume:
+    if last["VOLUME_RATIO"] > 1.5:
         score += 10
+
+    elif last["VOLUME_RATIO"] > 1.2:
+        score += 5
+
+    # ==========================================
+    # BONUS
+    # ==========================================
+
+    if (
+        last["EMA50"] > last["EMA200"]
+        and last["MACD"] > last["MACD_SIGNAL"]
+        and last["RSI"] > 50
+    ):
+        score += 10
+
+    score = min(score, 100)
 
     return {
         "buy": score >= BUY_SCORE,
