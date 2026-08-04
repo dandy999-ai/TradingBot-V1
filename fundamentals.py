@@ -1,6 +1,6 @@
 """
-TradingBot V4
-Analisi fondamentale
+TradingBot V5
+Analisi fondamentale con punteggio
 """
 
 import yfinance as yf
@@ -10,19 +10,27 @@ def get_fundamentals(symbol):
 
     try:
 
-        stock = yf.Ticker(symbol)
-        info = stock.info
+        info = yf.Ticker(symbol).info
 
-        return {
-            "market_cap": info.get("marketCap", 0),
-            "pe": info.get("trailingPE", None),
-            "forward_pe": info.get("forwardPE", None),
-            "revenue_growth": info.get("revenueGrowth", None),
-            "earnings_growth": info.get("earningsGrowth", None),
-            "beta": info.get("beta", None),
-            "sector": info.get("sector", "Unknown")
-        }
+        score = 0
+
+        market_cap = info.get("marketCap", 0)
+
+        if 300_000_000 <= market_cap <= 5_000_000_000:
+            score += 20
+
+        revenue = info.get("revenueGrowth")
+
+        if revenue is not None and revenue > 0.20:
+            score += 15
+
+        earnings = info.get("earningsGrowth")
+
+        if earnings is not None and earnings > 0.20:
+            score += 15
+
+        return score
 
     except Exception:
 
-        return None
+        return 0
