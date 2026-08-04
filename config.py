@@ -66,7 +66,9 @@ USE_GROWTH_FILTER = True
 # ==========================================
 
 WATCHLIST_FILE = "watchlists/growth.txt"
-
+WATCHLIST_GROWTH = "watchlists/growth.txt"
+WATCHLIST_ETF = "watchlists/etf.txt"
+WATCHLIST_QUALITY = "watchlists/quality.txt"
 # ==========================================
 # REPORT
 # ==========================================
