@@ -1,11 +1,13 @@
 """
-TradingBot V3
+TradingBot V6
 Programma principale
 """
 
 from scanner import get_watchlist, download_data
 from indicators import add_indicators
 from strategy import analyze
+from fundamentals import get_fundamentals
+from scoring import total_score
 from ranking import rank_results
 
 
@@ -14,9 +16,9 @@ def main():
     watchlist = get_watchlist()
     results = []
 
-    print("=" * 40)
-    print("        TRADING BOT V3")
-    print("=" * 40)
+    print("=" * 50)
+    print("         TRADING BOT V6")
+    print("=" * 50)
     print()
 
     for symbol in watchlist:
@@ -28,29 +30,38 @@ def main():
             df = download_data(symbol)
 
             if df.empty:
-                print("Nessun dato trovato")
+                print("Nessun dato trovato\n")
                 continue
 
             df = add_indicators(df)
 
-            result = analyze(df)
+            technical_score = analyze(df)["score"]
+
+            fundamental_score = get_fundamentals(symbol)
+
+            final_score = total_score(
+                technical_score,
+                fundamental_score
+            )
 
             results.append({
                 "symbol": symbol,
-                "score": result["score"],
-                "buy": result["buy"]
+                "technical": technical_score,
+                "fundamental": fundamental_score,
+                "score": final_score,
+                "buy": final_score >= 85
             })
 
         except Exception as e:
+
             print(f"Errore su {symbol}: {e}")
 
-    # Ordina per punteggio
     results = rank_results(results, top=10)
 
     print()
-    print("=" * 40)
-    print("TOP OPPORTUNITÀ")
-    print("=" * 40)
+    print("=" * 50)
+    print("TOP 10 OPPORTUNITÀ")
+    print("=" * 50)
 
     for i, r in enumerate(results, start=1):
 
@@ -58,8 +69,10 @@ def main():
 
         print(
             f"{i:2}. "
-            f"{r['symbol']:<6} "
-            f"Score: {r['score']:3}/100   "
+            f"{r['symbol']:<6} | "
+            f"Score: {r['score']:>5} | "
+            f"Tecnica: {r['technical']:>3} | "
+            f"Fond.: {r['fundamental']:>3} | "
             f"{signal}"
         )
 
