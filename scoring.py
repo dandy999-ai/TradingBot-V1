@@ -15,7 +15,6 @@ def total_score(
     fundamental_score,
     momentum_score=0
 ):
-):
     """
     Calcola il punteggio finale.
     """
