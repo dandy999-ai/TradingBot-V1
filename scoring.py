@@ -13,7 +13,8 @@ from config import (
 def total_score(
     technical_score,
     fundamental_score,
-    momentum_score
+    momentum_score=0
+):
 ):
     """
     Calcola il punteggio finale.
