@@ -1,4 +1,13 @@
+"""
+TradingBot PRO V4.1
+Backtest Professionale
+"""
 
+from scanner import download_data
+from indicators import add_indicators
+from strategy import analyze
+from fundamentals import get_fundamentals
+from momentum import momentum_score
 from scoring import total_score
 
 from config import (
@@ -29,9 +38,7 @@ def run_backtest(symbol):
         history = df.iloc[:i + 1]
 
         technical = analyze(history)["score"]
-
         fundamental = get_fundamentals(symbol)
-
         momentum = momentum_score(history)
 
         score = total_score(
@@ -40,18 +47,26 @@ def run_backtest(symbol):
             momentum
         )
 
-        # Soglia temporanea per testare la strategia
-if score < 70:
-    continue
+        # Debug (ogni 50 barre)
+        if i % 50 == 0:
+            print(
+                f"{df.index[i].date()} | "
+                f"Score={score:.1f} | "
+                f"Tech={technical} | "
+                f"Fund={fundamental} | "
+                f"Mom={momentum}"
+            )
+
+        # Soglia temporanea
+        if score < BUY_SCORE:
+            continue
 
         entry = float(df["Close"].iloc[i])
-
         exit_price = float(df["Close"].iloc[i + 10])
 
         variation = (exit_price - entry) / entry
 
         risk_capital = capital * RISK_PER_TRADE
-
         profit = risk_capital * variation
 
         capital += profit
