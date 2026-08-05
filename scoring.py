@@ -26,3 +26,4 @@ def total_score(
     )
 
     return round(min(score, 100), 2)
+
