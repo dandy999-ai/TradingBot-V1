@@ -76,3 +76,4 @@ def momentum_score(df):
         score += 15
 
     return min(score, 100)
+
