@@ -110,3 +110,4 @@ class Portfolio:
         print(f"Valore totale     : {self.total_value():.2f} €")
 
         print("=" * 60)
+
