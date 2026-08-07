@@ -1,60 +1,125 @@
 """
-TradingBot PRO V6
+TradingBot PRO V6.1
 Backtest Engine
 """
 
 from portfolio import Portfolio
+
+from scanner import (
+    get_watchlist,
+    download_data
+)
+
+from indicators import add_indicators
 
 
 class BacktestEngine:
 
     def __init__(self):
 
+        # Portafoglio
         self.portfolio = Portfolio()
 
+        # Watchlist
+        self.watchlist = get_watchlist()
+
+        # Dizionario dati storici
         self.market = {}
 
+        # Data corrente del backtest
         self.current_date = None
 
+        # Storico Equity
         self.equity_curve = []
 
+        # Storico Trade
         self.trade_log = []
+
+    # ==================================================
+    # Carica dati di mercato
+    # ==================================================
 
     def load_market(self):
 
-        """
-        Carica tutti i dati storici.
-        """
-        pass
+        print()
+        print("=" * 60)
+        print("CARICAMENTO MERCATO")
+        print("=" * 60)
+
+        loaded = 0
+
+        for symbol in self.watchlist:
+
+            print(f"Scarico {symbol}...")
+
+            try:
+
+                df = download_data(
+                    symbol,
+                    period="5y"
+                )
+
+                if df.empty:
+                    print("   Nessun dato")
+                    continue
+
+                df = add_indicators(df)
+
+                self.market[symbol] = df
+
+                loaded += 1
+
+            except Exception as e:
+
+                print(f"   Errore: {e}")
+
+        print()
+        print(f"Dataset caricati : {loaded}")
+        print()
+
+    # ==================================================
+    # Avanza di un giorno
+    # ==================================================
 
     def next_day(self):
 
-        """
-        Avanza di un giorno.
-        """
         pass
+
+    # ==================================================
+    # Aggiorna posizioni
+    # ==================================================
 
     def update_positions(self):
 
-        """
-        Aggiorna tutte le posizioni aperte.
-        """
         pass
+
+    # ==================================================
+    # Cerca nuovi segnali
+    # ==================================================
 
     def search_signals(self):
 
-        """
-        Cerca nuovi segnali.
-        """
         pass
+
+    # ==================================================
+    # Salva Equity
+    # ==================================================
 
     def save_equity(self):
 
-        """
-        Salva il valore giornaliero del portafoglio.
-        """
-        pass
+        self.equity_curve.append(
+            self.portfolio.total_value()
+        )
 
-    def run(self):
+    # ==================================================
+    # Report
+    # ==================================================
 
-        print("Backtest avviato...")
+    def summary(self):
+
+        print()
+        print("=" * 60)
+        print("BACKTEST ENGINE")
+        print("=" * 60)
+
+        print(f"Titoli caricati : {len(self.market
