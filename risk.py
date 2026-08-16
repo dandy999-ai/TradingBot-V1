@@ -21,3 +21,4 @@ def calcola_dimensione_posizione(prezzo_ingresso, stop_loss):
     quantita = rischio_massimo / rischio_per_azione
 
     return int(quantita)
+
