@@ -28,3 +28,4 @@ def calculate_entry(df):
         "target": target,
         "rr": rr
     }
+
