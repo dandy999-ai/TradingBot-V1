@@ -122,4 +122,32 @@ class BacktestEngine:
         print("BACKTEST ENGINE")
         print("=" * 60)
 
-        print(f"Titoli caricati : {len(self.market
+        print(f"Titoli caricati : {len(self.market)}"
+        )
+
+
+        print(
+            f"Trade aperti    : {len(self.portfolio.positions)}"
+        )
+
+
+        print(
+            f"Trade chiusi    : {len(self.portfolio.closed_trades)}"
+        )
+
+
+        print(
+            f"Equity finale   : {self.portfolio.total_value():.2f} €"
+        )
+
+
+        print("=" * 60)
+
+
+
+if __name__ == "__main__":
+
+
+    engine = BacktestEngine()
+
+    engine.run()
